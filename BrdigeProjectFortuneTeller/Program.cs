@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,32 +13,77 @@ namespace BrdigeProjectFortuneTeller
         {
             //Collecting and assigning user input to declared variables
 
-            Console.WriteLine("Hello!  Welcome to the Fortune Teller! \nTo begin, please enter your first name:");
-            string firstName = Console.ReadLine().ToLower();
+            Console.WriteLine("Hello!  Welcome to the Fortune Teller! " +
+                "\nType \"quit\" at any time to end this program.  " +
+                "\nType \"restart\" at any time to restart this program" +
+                "\nTo begin, please enter your first name:");
+
+            string userInput = Console.ReadLine().ToLower();
+            string firstName = userInput;
+            if (userInput == "quit" || userInput == "restart")
+            {
+                Quit(userInput);
+            }
+
 
 
             Console.WriteLine("Please enter your last name:");
-            string lastName = Console.ReadLine().ToLower();
+            userInput = Console.ReadLine().ToLower();
+            string lastName = userInput;
+            if (userInput == "quit" || userInput == "restart")
+            {
+                Quit(userInput);
+            }
+
 
             //calling greet method:
             Greet(firstName, lastName);
 
             Console.WriteLine("Please enter your age:");
-            int age = int.Parse(Console.ReadLine());
+            userInput = Console.ReadLine();
+            int age;
+            int.TryParse(userInput, out age);
+            if (userInput == "quit" || userInput == "restart")
+            {
+                Quit(userInput);
+            }
+
 
             Console.WriteLine("Please enter your birthmonth (in the form of a number/integer)");
-            int birthMonth = int.Parse(Console.ReadLine());
+            userInput = Console.ReadLine();
+            int birthMonth;
+            int.TryParse(userInput, out birthMonth);
+            if (userInput == "quit" || userInput == "restart")
+            {
+                Quit(userInput);
+            }
+
+
 
             Console.WriteLine("Please enter your favorite color from the following: R O Y G B I V.  Type \"help\" to view the color selection menu.");
-            string color = Console.ReadLine().ToLower();
+            string color;
+            userInput = Console.ReadLine().ToLower();
+            color = userInput;
             if (color == "help")
             {
                 Console.WriteLine("color Selection Menu: \nR = Red \nO = Orange \nY = Yellow \nG = Green \nB = Blue \nI = Indigo \nV = Violet \nPlease enter your favorite color:");
                 color = Console.ReadLine();
             }
+            if (userInput == "quit" || userInput == "restart")
+            {
+                Quit(userInput);
+            }
+
 
             Console.WriteLine("Please enter the number of siblings you have:");
-            int sibling = int.Parse(Console.ReadLine());
+            userInput = Console.ReadLine();
+            int sibling;
+            int.TryParse(userInput, out sibling);
+            if (userInput == "quit" || userInput == "restart")
+            {
+                Quit(userInput);
+            }
+
 
             //call method to calc retirement age:
             int yearsUntilRetire = RetirementAge(age);
@@ -57,6 +103,8 @@ namespace BrdigeProjectFortuneTeller
 
             //method to judge users fortune
             FortuneJudgement();
+
+
         }
 
         //greet user
@@ -170,7 +218,34 @@ namespace BrdigeProjectFortuneTeller
         //method to judge user's fortune:
         public static void FortuneJudgement()
         {
-                Console.WriteLine("Wowee what a fortune!  Good things around the corner!");
+            Console.WriteLine("Wowee what a fortune!  Good things around the corner!");
+        }
+
+
+
+
+
+        //method to quit at anytime user input is requested:
+        public static void Quit(string userInput)
+        {
+            switch (userInput)
+            {
+
+                case "quit":
+                    Console.WriteLine("You are now leaving the program.");
+                    System.Environment.Exit(0);
+                    break;
+
+                case "restart":
+                    Console.WriteLine("You are now restarting the program in a new window.");
+                    var BridgeFortune = Assembly.GetExecutingAssembly().Location;
+                    System.Diagnostics.Process.Start(BridgeFortune);
+                    Environment.Exit(0);
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
 }
